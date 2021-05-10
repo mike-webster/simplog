@@ -3,4 +3,4 @@ server:
   port: "8888"
 logs:
   directory: ""
-  filename: "test.log"
+  filename: "spotify-views.log"
