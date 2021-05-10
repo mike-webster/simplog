@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .search-bar {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .results {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                btn = document.getElementById("button")
+                btn.onclick = function(){
+                    // get user search payload
+                    payload = document.getElementById("search").value;
+                    
+                    // make request to API
+                    const Http = new XMLHttpRequest();
+                    Http.open("GET", "/search?text=" + payload);
+                    Http.send();
+                    Http.onreadystatechange = function(){
+                        if (this.readyState == 4 && this.status == 200) {
+                            // when done and successful
+                            resp = JSON.parse(this.responseText);
+
+                            items = ""
+
+                            for (var i = 0; i < resp.items.length; i++) {
+                                items += "<div>" + resp.items[i] + "</div>";
+                            }
+
+
+                            document.getElementById("results").innerHTML = items;
+
+                            return;
+                        }
+                    };
+                };
+            });
+        </script>
+    </head>
+    <body>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="search text" />
+            <div id="button" class="button">Search</search></div>
+        </div>
+        <div id="results" class="results">
+
+        </div> 
+    </body>
+</html>
